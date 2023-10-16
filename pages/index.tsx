@@ -1,5 +1,4 @@
 import {useEffect} from 'react';
-
 import MainBody from '@/components/MainBody';
 import {getSession} from "next-auth/react";
 import axios from 'axios';
@@ -22,6 +21,7 @@ export default function Home() {
 
   return (
     <>
+    
     <MainBody/>
     </>
   )

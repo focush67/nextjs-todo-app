@@ -65,6 +65,10 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
     }
 
     if(method === "PUT"){
+        const email = req.query?.email;
+        const id = req.query?.id;
+
+        console.log("PUT Request received for: ",{email,id});
         return res.json({
             message: "PUT Request received",
             status: 201,

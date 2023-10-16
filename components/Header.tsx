@@ -1,7 +1,6 @@
 import { signIn, useSession, signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 
 const Header = () => {
   const { data: session } = useSession();
@@ -16,7 +15,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-black text-white flex justify-between items-center p-4 sm:text-md md:text-lg lg:text-lg w-[100%] sticky top-0 z-10">
+    <header className="bg-black text-white flex justify-between items-center p-4 pl-2 pr-2 sm:text-[1rem] md:text-md lg:text-lg lg:gap-5 sticky top-0 z-10 w-full">
       <div className="font-bold">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -31,11 +30,11 @@ const Header = () => {
           <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
         </svg>
       </div>
-      <nav className="flex items-center gap-3">
+      <nav className="flex items-center gap-3 lg:gap-2 xl:gap-4">
         <Link href="/">Home</Link>
-        <Link href="/list">My List</Link>
-        <Link href="/frequent">Frequent</Link>
-        <div className="text-gray-600">{session && session?.user?.name}</div>
+        <Link href="/list">Tasks</Link>
+        
+        <div className="text-gray-600 whitespace-nowrap">{session && session?.user?.name}</div>
         {session ? (
           <div className="flex items-center">
             <Image
@@ -46,15 +45,15 @@ const Header = () => {
               className="rounded-full mr-2 ml-2"
             />
             <button
-              className="bg-transparent hover:bg-red-900 text-white font-normal hover:text-white py-2 px-4 border border-red-500 border-opacity-0 hover:border-transparent rounded mx-3"
+              className="bg-transparent hover:bg-red-900 text-white font-normal hover:text-white py-1 px-3 sm:py-2 sm:px-4 border border-red-500 border-opacity-0 hover:border-transparent rounded mx-2"
               onClick={handleSignOut}
             >
-              Sign Out
+              Log Out
             </button>
           </div>
         ) : (
           <button
-            className="bg-transparent hover:bg-green-700 text-white font-semibold hover:text-white py-2 px-4 border border-green-500 border-opacity-0 hover:border-transparent rounded mx-3"
+            className="bg-transparent hover:bg-green-700 text-white font-semibold hover:text-white py-1 px-3 sm:py-2 sm:px-4 border border-green-500 border-opacity-0 hover:border-transparent rounded mx-1"
             onClick={handleSignIn}
           >
             Sign In

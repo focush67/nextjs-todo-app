@@ -1,6 +1,6 @@
-import TaskCard from "@/components/TaskCard";
+import TaskCard,{EditForm} from "@/components/TaskCard";
 import { useEffect, useState } from "react";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import axios from "axios";
 
 interface Task {
@@ -17,10 +17,13 @@ interface User {
 
 export default function List() {
   const [list, setList] = useState<User|null>(null);
-
+  const [editMode,setEditMode] = useState(false);
+  const [editTaskData,setEditTaskData] = useState<Task|null>();
+  let globalSession:any;
   useEffect(() => {
     const fetchDetails = async () => {
       const session = await getSession();
+      globalSession = session;
       const response = await axios.get(
         `/api/task?email=${session?.user?.email}`
       );
@@ -40,7 +43,18 @@ export default function List() {
   }, []);
 
 
-  const editTask = (_id: string) => {};
+  const editTask = (_id: string) => {
+      const taskToEdit = list?.tasks.find((task) => task._id === _id);
+      if(taskToEdit){
+        setEditTaskData(taskToEdit);
+        setEditMode(true);
+      }
+  };
+
+  const closeEditForm = () => {
+    setEditTaskData(null);
+    setEditMode(false);
+  }
 
   const deleteTask = async (_id: string) => {
     console.log("ID: ",_id);
@@ -78,7 +92,35 @@ export default function List() {
 
   return (
     <div className="grid gap-2">
-      { list && list?.tasks?.map((listItem: any, index: number) => (
+      {
+        editMode && editTaskData ? (
+          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-4 rounded-lg shadow-lg inline-flex flex-col">
+            
+            <button
+              onClick={() => {
+                setEditTaskData(null);
+                setEditMode(false);
+              }}
+              className="text-gray-600 bg-red-800 text-white p-2 rounded-lg"
+            >
+              Close
+            </button>
+            <EditForm
+              name={editTaskData.name}
+              date={editTaskData.date}
+              time={editTaskData.time}
+              description={editTaskData.description}
+              id={editTaskData._id}
+            />
+          </div>
+        </div>
+      ) : null
+      
+      }
+
+      { 
+        list && list?.tasks?.map((listItem: any, index: number) => (
         <div className="p-3">
           <TaskCard
             key={index}
@@ -91,6 +133,8 @@ export default function List() {
           />
         </div>
       ))}
+
+      
     </div>
   );
 }
