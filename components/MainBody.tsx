@@ -33,12 +33,12 @@ const Main = () => {
         id: newTaskID,
       });
       localStorage.setItem(session?.user?.email || "" , JSON.stringify(existingTasks));
-      setTodo({
-        name: "",
-        date: "",
-        time: "",
-        description: "",
-      })
+      // setTodo({
+      //   name: "",
+      //   date: "",
+      //   time: "",
+      //   description: "",
+      // })
 
       setConfirmAddition(true);
     }
