@@ -1,11 +1,10 @@
 
 
-const TaskCard = ({name,date,time,description,id,onEditClick,onDeleteClick}:{
+const TaskCard = ({name,date,time,description,onEditClick,onDeleteClick}:{
     name: string,
     date: string,
     time: string,
     description: string,
-    id: string,
     onEditClick: () => void,
     onDeleteClick: () => void,
 }) => {
@@ -22,8 +21,8 @@ const TaskCard = ({name,date,time,description,id,onEditClick,onDeleteClick}:{
           </div>
           {description && (
             <>
-            <p className="text-sm text-gray-600">{id}</p>
-            <p className="text-md text-gray-600 mt-2">{description}</p>
+            
+            <p className="text-md text-gray-600 mt-2 italic">{description}</p>
             </>
           )}
           <div className="flex justify-end mt-2 space-x-3">

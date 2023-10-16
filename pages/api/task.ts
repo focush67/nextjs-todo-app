@@ -2,8 +2,8 @@ import mongooseConnect from "@/lib/mongoose";
 import { NextApiRequest,NextApiResponse } from "next";
 import {getSession} from "next-auth/react";
 import { Profile } from "@/models/Profile";
-import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
+import mongoose from "@/lib/mongoose";
 export default async function handler(req:NextApiRequest,res:NextApiResponse){
     const session = getSession();
     mongooseConnect();
@@ -74,7 +74,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
     if(method === "DELETE"){
         try {
             const email = req.query.email;
-            const id = req.query.id;
+            const id = req.query.id as string;
             console.log("DELETE REQUEST: ",{email,id});
             const user = await Profile.findOne({email});
             
