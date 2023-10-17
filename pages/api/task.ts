@@ -67,11 +67,35 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
     if(method === "PUT"){
         const email = req.query?.email;
         const id = req.query?.id;
-
+        const {task} = req.body;
         console.log("PUT Request received for: ",{email,id});
+        const user = await Profile.findOne({email});
+
+        if(!user){
+            return res.json({
+                message: "User not found",
+                status: 404,
+            })
+        }
+
+        const taskToUpdate = user.tasks.id(id);
+        if(!taskToUpdate){
+            return res.json({
+                message: "Task not found",
+                status: 404,
+            })
+        }
+
+        taskToUpdate.name = task.name;
+        taskToUpdate.date = task.date;
+        taskToUpdate.time = task.time;
+        taskToUpdate.description = task.description;
+
+        await user.save();
         return res.json({
-            message: "PUT Request received",
+            message: "PUT Request received and successfully processed",
             status: 201,
+            userDetails: user,
         })
     }
 

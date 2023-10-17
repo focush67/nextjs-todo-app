@@ -2,6 +2,7 @@ import TaskCard,{EditForm} from "@/components/TaskCard";
 import { useEffect, useState } from "react";
 import { getSession, useSession } from "next-auth/react";
 import axios from "axios";
+import CloseButton from "@/components/CloseButton";
 
 interface Task {
   name: string;
@@ -20,6 +21,7 @@ export default function List() {
   const [editMode,setEditMode] = useState(false);
   const [editTaskData,setEditTaskData] = useState<Task|null>();
   let globalSession:any;
+
   useEffect(() => {
     const fetchDetails = async () => {
       const session = await getSession();
@@ -44,17 +46,17 @@ export default function List() {
 
 
   const editTask = (_id: string) => {
+    console.log("edit requested");
       const taskToEdit = list?.tasks.find((task) => task._id === _id);
       if(taskToEdit){
         setEditTaskData(taskToEdit);
         setEditMode(true);
       }
-  };
 
-  const closeEditForm = () => {
-    setEditTaskData(null);
-    setEditMode(false);
-  }
+      else{
+        setEditTaskData(null);
+      }
+  };
 
   const deleteTask = async (_id: string) => {
     console.log("ID: ",_id);
@@ -94,28 +96,19 @@ export default function List() {
     <div className="grid gap-2">
       {
         editMode && editTaskData ? (
-          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-4 rounded-lg shadow-lg inline-flex flex-col">
-            
-            <button
-              onClick={() => {
-                setEditTaskData(null);
-                setEditMode(false);
-              }}
-              className="text-gray-600 bg-red-800 text-white p-2 rounded-lg"
-            >
-              Close
-            </button>
+          
             <EditForm
               name={editTaskData.name}
               date={editTaskData.date}
               time={editTaskData.time}
               description={editTaskData.description}
               id={editTaskData._id}
+              editMode={() => setEditMode(false)}
+              editData={() => setEditTaskData(null)}
             />
-          </div>
-        </div>
-      ) : null
+          
+      ) : 
+          null
       
       }
 
