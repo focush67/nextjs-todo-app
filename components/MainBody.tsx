@@ -39,7 +39,7 @@ const Main = () => {
       //   time: "",
       //   description: "",
       // })
-
+      window.localStorage.setItem("taskAdded","true");
       setConfirmAddition(true);
     }
   };

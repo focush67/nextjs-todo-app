@@ -54,15 +54,15 @@ export const TaskCard = ({
     <div className="task-card bg-gray-100 rounded-lg p-4 shadow-lg">
       <h2 className="text-xl font-bold">{name}</h2>
       <div className="flex justify-between mt-2">
-        <p className="text-sm text-gray-600">{date}</p>
-        <p className="text-sm text-gray-600">{time}</p>
+        <p className="text-sm text-gray-600 font-semibold">{date}</p>
+        <p className="text-sm text-gray-600 font-semibold bg-gray-300 p-1 rounded-lg">{time}</p>
       </div>
       {description && (
         <>
           <p className="text-md text-gray-600 mt-2 italic">{description}</p>
         </>
       )}
-      <p className="text-md text-gray-600 mt-2 italic">Time Remaining: {countDown}</p>
+      <p className="text-md text-gray-600 mt-2 italic">{countDown}</p>
       <div className="flex justify-end mt-2 space-x-3">
         <button
           onClick={onEditClick}
