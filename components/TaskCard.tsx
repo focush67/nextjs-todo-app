@@ -9,7 +9,7 @@ export const TaskCard = ({
   description,
   onEditClick,
   onDeleteClick,
-
+  
 }: {
   name: string;
   date: string;
@@ -19,6 +19,37 @@ export const TaskCard = ({
   onDeleteClick: () => void;
   
 }) => {
+
+  const calculate = () => {
+    const targetTime:any = new Date(`${date}T${time}`);
+    const currentTime:any = new Date();
+
+    const timeDifference = targetTime - currentTime;
+
+    if(timeDifference <= 0)
+    {
+      return "Expired";
+    }
+
+    const months = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 30));
+    const days = Math.floor((timeDifference % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+    return `${months} months, ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+  }
+
+  const [countDown , setCountDown] = useState(calculate);
+
+  useEffect(() => {
+    const interval = setInterval(()=>{
+      setCountDown(calculate());
+    },1000)
+
+    return ()=>clearInterval(interval);
+  } , [])
+
   return (
     <div className="task-card bg-gray-100 rounded-lg p-4 shadow-lg">
       <h2 className="text-xl font-bold">{name}</h2>
@@ -31,6 +62,7 @@ export const TaskCard = ({
           <p className="text-md text-gray-600 mt-2 italic">{description}</p>
         </>
       )}
+      <p className="text-md text-gray-600 mt-2 italic">Time Remaining: {countDown}</p>
       <div className="flex justify-end mt-2 space-x-3">
         <button
           onClick={onEditClick}

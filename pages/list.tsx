@@ -17,10 +17,18 @@ interface User {
 }
 
 export default function List() {
+  const [currentTime,setCurrentTime] = useState(new Date());
   const [list, setList] = useState<User|null>(null);
   const [editMode,setEditMode] = useState(false);
   const [editTaskData,setEditTaskData] = useState<Task|null>();
   let globalSession:any;
+
+  useEffect(()=>{
+    const interval = setInterval(()=>{
+      setCurrentTime(new Date());
+    },1000);
+    return () => clearInterval(interval);
+  },[])
 
   useEffect(() => {
     const fetchDetails = async () => {
