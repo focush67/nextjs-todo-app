@@ -51,7 +51,7 @@ export default function List() {
 
     const interval = setInterval(() => {
       fetchDetails();
-    },5000)
+    },500)
 
     return () => clearInterval(interval);
 
