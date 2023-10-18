@@ -49,11 +49,7 @@ export default function List() {
       setList({ tasks: lsResponse });
     };
 
-    const interval = setInterval(() => {
-      fetchDetails();
-    },500)
-
-    return () => clearInterval(interval);
+   fetchDetails();
 
   }, []);
 
